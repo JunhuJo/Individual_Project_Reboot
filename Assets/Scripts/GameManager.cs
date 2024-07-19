@@ -1,144 +1,70 @@
-using System.Collections;
 using UnityEngine;
-using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
+using Cinemachine;
+
+public enum GameState
+{
+    Start,
+    Lobby,
+    Play,
+    Reward
+}
 
 public class GameManager : MonoBehaviour
 {
-    private static GameManager instance;
+    public GameState currentState;
 
-    [Header("Audio")]
-    [SerializeField] private AudioMixer audioMixer;
-    [SerializeField] private const float sfxVolumeOffset = 10.0f;
+    [Header("Cursor_Settings")]
+    [SerializeField] private Texture2D customCursorTexture; // 커서 이미지
+    [SerializeField] private Vector2 hotSpot = Vector2.zero; // 커서 핫스팟 (이미지의 중심을 기준으로 커서 위치를 설정)
 
-    public GameObject loadingScreen;
-
-
-    public static GameManager Instance
-    {
-        get
-        {
-            if (instance == null)
-            {
-                instance = FindObjectOfType<GameManager>();
-
-                if (instance == null)
-                {
-                    GameObject singletonObject = new GameObject();
-                    instance = singletonObject.AddComponent<GameManager>();
-                    singletonObject.name = typeof(GameManager).ToString() + " (Singleton)";
-
-
-                    DontDestroyOnLoad(singletonObject);
-                }
-            }
-            return instance;
-        }
-    }
-
-    private void Awake()
-    {
-
-        if (instance != null && instance != this)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-    }
+    
 
     private void Start()
     {
-        SetBGMVolume(1.0f);
-        SetSFXVolume(1.0f);
+        
+        ChangeState(GameState.Start);
+        ChangeCursor(customCursorTexture, hotSpot);
     }
 
-
-    public void LoadScene(string sceneName)
+    public void ChangeState(GameState newState)
     {
-        StartCoroutine(LoadSceneAsync(sceneName));
-    }
+        currentState = newState;
 
-    IEnumerator LoadSceneAsync(string sceneName)
-    {
-        // 로딩 화면 활성화
-        loadingScreen.SetActive(true);
-
-        // 씬 로드 시작
-        AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
-        operation.allowSceneActivation = false;
-
-        // 로딩이 완료될 때까지 대기
-        while (!operation.isDone)
+        switch (newState)
         {
-            // 로딩이 완료되면 씬 전환
-            if (operation.progress >= 0.9f)
-            {
-                if (Input.anyKeyDown)
-                {
-                    // 로딩 화면 비활성화
-                    loadingScreen.SetActive(false);
-                    operation.allowSceneActivation = true;
-                }
-            }
-
-            yield return null;
+            case GameState.Start:
+                // Game Start 로직
+                ChangeState(GameState.Lobby);
+                break;
+            case GameState.Lobby:
+                // 로비 Scene 로드
+                SceneManager.LoadScene("GameLobby");
+                break;
+            case GameState.Play:
+                // 게임 플레이 Scene 로드
+                SceneManager.LoadScene("GamePlay");
+                break;
+            case GameState.Reward:
+                // 보상 처리 로직
+                SceneManager.LoadScene("GameLobby");
+                // 추가 보상 UI 처리
+                // 보상 UI 로직 추가 필요
+                break;
         }
     }
-
-
-    public void OnClick_GameStart()
+    public void OnPlayGame()
     {
-        SceneManager.LoadScene("Main_Play");
+        ChangeState(GameState.Play);
     }
 
-    public void SetBGMVolume(float volume)
+    public void OnGetReward()
     {
-        // volume이 0일 때를 대비하여 최소 값을 설정
-        if (volume <= 0.0001f) volume = 0.0001f;
-        audioMixer.SetFloat("BGM", Mathf.Log10(volume) * 20);
+        ChangeState(GameState.Reward);
     }
 
-    public void SetSFXVolume(float volume)
+    private void ChangeCursor(Texture2D cursorTexture, Vector2 hotSpot)
     {
-        // volume이 0일 때를 대비하여 최소 값을 설정
-        if (volume <= 0.0001f) volume = 0.0001f;
-        audioMixer.SetFloat("EffectSound", Mathf.Log10(volume) * 20 + sfxVolumeOffset);
+        Cursor.SetCursor(cursorTexture, hotSpot, CursorMode.Auto);
     }
-
-    public float GetBGMVolume()
-    {
-        float value;
-        audioMixer.GetFloat("BGM", out value);
-        return value;
-    }
-
-    public float GetSFXVolume()
-    {
-        float value;
-        audioMixer.GetFloat("EffectSound", out value);
-        return value - sfxVolumeOffset;
-    }
-    #region 해상도설정
-    public void OnClick_SetSize_First()
-    {
-
-        Screen.SetResolution(1920, 1080, FullScreenMode.Windowed);
-    }
-
-    public void OnClick_SetSize_Scound()
-    {
-
-        Screen.SetResolution(1280, 720, FullScreenMode.Windowed);
-    }
-
-    public void OnClick_SetSize_Tread()
-    {
-
-        Screen.SetResolution(800, 600, FullScreenMode.Windowed);
-    }
-    #endregion
 }
