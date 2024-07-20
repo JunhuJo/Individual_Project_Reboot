@@ -13,9 +13,6 @@ public class PlayerController : NetworkBehaviour
     private NavMeshAgent navMeshAgent;
     private Vector3 previousPosition;
 
-    [SerializeField] CinemachineVirtualCamera virtualCamera;
-    //private string character_Name;
-
     [SyncVar] private Vector3 syncPosition;
     [SyncVar] private Quaternion syncRotation;
     [SyncVar(hook = nameof(OnChangeWalkingState))] private bool isWalking;
@@ -31,11 +28,15 @@ public class PlayerController : NetworkBehaviour
 
         if (isLocalPlayer)
         {
-            OnStartLocalPlayer();
             CmdProvideCharacterName(characterData.characterName);
         }
 
         previousPosition = transform.position;
+
+        if (class_Name != null)
+        {
+            class_Name.text = characterData.characterName;
+        }
     }
 
     private void Update()
@@ -87,16 +88,17 @@ public class PlayerController : NetworkBehaviour
     {
         base.OnStartLocalPlayer();
 
-        if (isLocalPlayer)
+        class_Name.text = characterData.characterName;
+        SetCameraTarget();
+    }
+
+    private void SetCameraTarget()
+    {
+        CameraController cameraController = FindObjectOfType<CameraController>();
+
+        if (cameraController != null)
         {
-            class_Name.text = characterData.characterName;
-
-            virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
-
-            if (virtualCamera != null)
-            {
-                virtualCamera.Follow = transform;
-            }
+            cameraController.SetTarget(transform);
         }
     }
 
@@ -174,16 +176,12 @@ public class PlayerController : NetworkBehaviour
     private void RpcAttack()
     {
         kannaSkillManager.Attack();
-        // 공격 프리팹 인스턴스화
-        //Instantiate(characterData.attackPrefab, transform.position + transform.forward, transform.rotation);
     }
 
     [ClientRpc]
     private void RpcUseSkill()
     {
         kannaSkillManager.UseSkill();
-        // 스킬 프리팹 인스턴스화
-        //Instantiate(characterData.skillPrefab, transform.position + transform.forward, transform.rotation);
     }
 
     // Animation event function

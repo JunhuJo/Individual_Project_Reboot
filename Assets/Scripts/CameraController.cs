@@ -1,10 +1,12 @@
+using Cinemachine;
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    public Transform target;
+    private Transform target;
     public Vector3 offset;
     public float smoothing = 5f;
 
@@ -14,7 +16,14 @@ public class CameraController : MonoBehaviour
         {
             Vector3 targetPosition = target.position + offset;
             transform.position = Vector3.Lerp(transform.position, targetPosition, smoothing * Time.deltaTime);
-            transform.LookAt(target);
+        }
+    }
+
+    public void SetTarget(Transform newTarget)
+    {
+        if (newTarget.GetComponent<NetworkIdentity>().isLocalPlayer)
+        {
+            target = newTarget;
         }
     }
 }

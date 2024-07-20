@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 391cc5840d6f2ce49839eea6f5240af0, type: 3}
+  m_Name: Shion
+  m_EditorClassIdentifier: 
+  characterName: "\uC2DC\uC628"
+  moveSpeed: 4
+  animatorController: {fileID: 9100000, guid: 84151ccbf5c0d534f9283a7ce904d121, type: 2}
+  characterModel: {fileID: 2419154072467509139, guid: 47ec628a101eb504392841067da2a714, type: 3}
+  attackPrefab: {fileID: 0}
+  skillPrefab: {fileID: 0}

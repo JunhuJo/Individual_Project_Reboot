@@ -4,22 +4,34 @@ using UnityEngine;
 
 public class NetworkingManager : NetworkManager
 {
-    [SerializeField] private CinemachineVirtualCamera virtual_Camera;
+    [SerializeField] private GameObject[] class_Prefabs;
+    [SerializeField] private int class_Key;
 
+    private void Start()
+    {
+        ClassSelect();
+    }
+
+    private void ClassSelect()
+    {
+        switch(class_Key)
+        {
+            case 0:
+                playerPrefab = class_Prefabs[0];
+                break;
+            case 1:
+                playerPrefab = class_Prefabs[1];
+                break;
+            case 2:
+                playerPrefab= class_Prefabs[2];
+                break;
+        }
+    }
     public override void OnServerAddPlayer(NetworkConnectionToClient conn)
     {
         base.OnServerAddPlayer(conn);
         Debug.Log("Player added: " + conn);
 
-        // 플레이어가 생성된 후 로컬 플레이어에만 카메라를 붙입니다.
-        GameObject player = conn.identity.gameObject;
-
-        // 플레이어 오브젝트가 로컬 플레이어인지 확인
-        if (conn.identity.isLocalPlayer)
-        {
-            // 카메라를 플레이어 오브젝트에 붙입니다.
-            AttachCameraToPlayer(player);
-        }
     }
 
     public override void OnServerDisconnect(NetworkConnectionToClient conn)
@@ -38,18 +50,5 @@ public class NetworkingManager : NetworkManager
     {
         base.OnClientDisconnect();
         Debug.Log("Client disconnected");
-    }
-
-    private void AttachCameraToPlayer(GameObject player)
-    {
-        if (virtual_Camera != null)
-        {
-            // 플레이어에 카메라를 붙입니다.
-            virtual_Camera.Follow = player.transform;
-        }
-        else
-        {
-            Debug.LogError("Player camera prefab is not assigned in the NetworkManager.");
-        }
     }
 }
