@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class NetworkUI : MonoBehaviour
 {
-    public CustomNetworkManager networkManager;
+    public NetworkingManager networkManager;
     public Button hostButton;
     public Button joinButton;
     public InputField addressInput;

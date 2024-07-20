@@ -1,12 +1,12 @@
+using Mirror;
 using UnityEngine;
 
-public class KannaSkillManager : MonoBehaviour
+public class KannaSkillManager : NetworkBehaviour
 {
     [Header("Kanna Weapon")]
     [SerializeField] private GameObject katana;  // 발도 카타나
     [SerializeField] private GameObject hide_katana;    // 검집 카타나
     private Animator animator;
-
 
     private void Start()
     {
@@ -23,15 +23,15 @@ public class KannaSkillManager : MonoBehaviour
         animator.SetTrigger("UseSkill");
     }
 
-    public void SetAttakKatana()
+    public void SetAttackKatana()
     {
-        katana.gameObject.SetActive(true);
-        hide_katana.gameObject.SetActive(true);
+        katana.SetActive(true);
+        hide_katana.SetActive(false);
     }
 
     public void SetNonAttackKatana()
     {
-        hide_katana.gameObject.SetActive(true);
-        katana.gameObject.SetActive(false);
+        hide_katana.SetActive(true);
+        katana.SetActive(false);
     }
 }
