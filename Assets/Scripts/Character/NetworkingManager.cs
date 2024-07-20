@@ -2,7 +2,7 @@ using Cinemachine;
 using Mirror;
 using UnityEngine;
 
-public class CustomNetworkManager : NetworkManager
+public class NetworkingManager : NetworkManager
 {
     [SerializeField] private CinemachineVirtualCamera virtual_Camera;
 

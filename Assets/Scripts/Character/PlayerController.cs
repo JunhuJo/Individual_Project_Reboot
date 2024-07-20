@@ -7,14 +7,14 @@ public class PlayerController : NetworkBehaviour
 {
     public float moveSpeed = 5f;
     private Animator animator;
-    private WeaponController weaponController;
+    private KannaSkillManager kanna_skill_Manager;
     private NavMeshAgent navMeshAgent;
     private Vector3 previousPosition;
 
     private void Start()
     {
         animator = GetComponent<Animator>();
-        weaponController = GetComponentInChildren<WeaponController>();
+        kanna_skill_Manager = GetComponentInChildren<KannaSkillManager>();
         navMeshAgent = GetComponent<NavMeshAgent>();
 
         if (isLocalPlayer)
@@ -106,13 +106,13 @@ public class PlayerController : NetworkBehaviour
     [ClientRpc]
     private void RpcAttack()
     {
-        weaponController.Attack();
+        kanna_skill_Manager.Attack();
     }
 
     [ClientRpc]
     private void RpcUseSkill()
     {
-        weaponController.UseSkill();
+        kanna_skill_Manager.UseSkill();
     }
 
     // 애니메이션 이벤트 함수

@@ -1,9 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaponController : MonoBehaviour
+public class KannaSkillManager : MonoBehaviour
 {
+    [Header("Kanna Weapon")]
     [SerializeField] private GameObject katana;  // 발도 카타나
     [SerializeField] private GameObject hide_katana;    // 검집 카타나
     private Animator animator;
