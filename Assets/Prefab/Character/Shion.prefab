@@ -76,7 +76,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterData: {fileID: 11400000, guid: c59882035ef4fee42b188d320214ca8c, type: 2}
-  Effect_prefab: {fileID: 9170966464998626332, guid: 288ec3851fed9a84d8efd76871a9243c, type: 3}
+  Effect_prefab: {fileID: 6532625474870085665, guid: e1bff2e34a60e6a4c91981680491c220, type: 3}
   class_Name: {fileID: 1230826761580752443}
 --- !u!195 &-975696938063734572
 NavMeshAgent:
