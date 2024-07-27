@@ -1,7 +1,6 @@
-using Mirror;
 using UnityEngine;
 
-public class KannaSkillManager : NetworkBehaviour
+public class KannaSkillManager : MonoBehaviour
 {
     [Header("Kanna Weapon")]
     [SerializeField] private GameObject katana;  // 발도 카타나

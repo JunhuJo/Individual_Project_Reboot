@@ -1,22 +1,23 @@
-using Cinemachine;
-using Mirror;
 using UnityEngine;
 using UnityEngine.AI;
 
 
-public class PlayerController : NetworkBehaviour
+public class PlayerController : MonoBehaviour
 {
+    [Header("Character Data")]
     public CharacterData characterData; // ScriptableObject
+
+    [Header("View")]
+    [SerializeField] private GameObject Effect_prefab; // ÀÌÆåÆ® ÇÁ¸®ÆÕ º¯¼ö
     [SerializeField] private TextMesh class_Name;
+
+
     private Animator animator;
     private KannaSkillManager kannaSkillManager;
     private NavMeshAgent navMeshAgent;
     private Vector3 previousPosition;
 
-    [SyncVar] private Vector3 syncPosition;
-    [SyncVar] private Quaternion syncRotation;
-    [SyncVar(hook = nameof(OnChangeWalkingState))] private bool isWalking;
-    [SyncVar(hook = nameof(OnChangeCharacterName))] private string syncCharacterName;
+    
 
     private void Start()
     {
@@ -25,81 +26,11 @@ public class PlayerController : NetworkBehaviour
         kannaSkillManager = GetComponentInChildren<KannaSkillManager>();
         navMeshAgent = GetComponent<NavMeshAgent>();
         navMeshAgent.speed = characterData.moveSpeed; // Set move speed from character data
-
-        if (isLocalPlayer)
-        {
-            CmdProvideCharacterName(characterData.characterName);
-        }
-
-        previousPosition = transform.position;
-
-        if (class_Name != null)
-        {
-            class_Name.text = characterData.characterName;
-        }
     }
 
     private void Update()
     {
-        if (isLocalPlayer)
-        {
-            HandleMovement();
-            HandleActions(); // Ensure HandleActions is being called
-
-            // Update position and rotation information
-            CmdProvidePositionToServer(transform.position, transform.rotation, animator.GetBool("isWalking"));
-        }
-        else
-        {
-            // Apply synchronized position and rotation from the server
-            SmoothMovement();
-        }
-    }
-
-    [Command]
-    private void CmdProvideCharacterName(string name)
-    {
-        syncCharacterName = name;
-    }
-
-    private void OnChangeCharacterName(string oldName, string newName)
-    {
-        if (class_Name != null)
-        {
-            class_Name.text = newName;
-        }
-    }
-
-    [Command]
-    private void CmdProvidePositionToServer(Vector3 position, Quaternion rotation, bool walkingState)
-    {
-        syncPosition = position;
-        syncRotation = rotation;
-        isWalking = walkingState;
-    }
-
-    private void SmoothMovement()
-    {
-        transform.position = Vector3.Lerp(transform.position, syncPosition, Time.deltaTime * characterData.moveSpeed);
-        transform.rotation = Quaternion.Lerp(transform.rotation, syncRotation, Time.deltaTime * characterData.moveSpeed);
-    }
-
-    public override void OnStartLocalPlayer()
-    {
-        base.OnStartLocalPlayer();
-
-        class_Name.text = characterData.characterName;
-        SetCameraTarget();
-    }
-
-    private void SetCameraTarget()
-    {
-        CameraController cameraController = FindObjectOfType<CameraController>();
-
-        if (cameraController != null)
-        {
-            cameraController.SetTarget(transform);
-        }
+        HandleMovement();
     }
 
     private void HandleMovement()
@@ -112,6 +43,10 @@ public class PlayerController : NetworkBehaviour
             {
                 navMeshAgent.SetDestination(hit.point);
             }
+
+
+            GameObject pointer_Effect = Instantiate(Effect_prefab, hit.point, Quaternion.identity);
+            Destroy(pointer_Effect, 0.7f);
         }
 
         if (navMeshAgent.isOnNavMesh && navMeshAgent.hasPath)
@@ -130,6 +65,7 @@ public class PlayerController : NetworkBehaviour
                 animator.SetBool("isWalking", false);
                 navMeshAgent.ResetPath(); // Clear path when destination is reached
             }
+           
         }
         else
         {
@@ -137,15 +73,7 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
-    private void OnAnimatorMove()
-    {
-        if (isLocalPlayer && navMeshAgent.enabled)
-        {
-            // Move using root motion
-            transform.position += animator.deltaPosition;
-            navMeshAgent.nextPosition = transform.position;
-        }
-    }
+
 
     private void HandleActions()
     {
@@ -160,25 +88,25 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
-    [Command]
+    
     private void CmdAttack()
     {
         RpcAttack();
     }
-
-    [Command]
+    
+    
     private void CmdUseSkill()
     {
         RpcUseSkill();
     }
-
-    [ClientRpc]
+    
+    
     private void RpcAttack()
     {
         kannaSkillManager.Attack();
     }
-
-    [ClientRpc]
+    
+    
     private void RpcUseSkill()
     {
         kannaSkillManager.UseSkill();
@@ -187,7 +115,7 @@ public class PlayerController : NetworkBehaviour
     // Animation event function
     public void MoveStep()
     {
-        if (!isLocalPlayer) return;
+        
 
         // Movement logic called by animation events
         // Move using root motion

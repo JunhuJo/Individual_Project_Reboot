@@ -2433,7 +2433,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4611890095131277888}
   - component: {fileID: 8298456199264702189}
-  - component: {fileID: 661473684119150820}
   - component: {fileID: 141310098907059964}
   - component: {fileID: -5231868807660243353}
   - component: {fileID: 2699268414424463414}
@@ -2488,23 +2487,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &661473684119150820
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5113033684674980815}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneId: 0
-  _assetId: 3099048012
-  serverOnly: 0
-  visibility: 0
-  hasSpawned: 0
 --- !u!114 &141310098907059964
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2517,10 +2499,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6a0d47374050884d8b8b42160907541, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
   characterData: {fileID: 11400000, guid: d7ae1f3b5a859cc42841cbc9535abeb8, type: 2}
+  Effect_prefab: {fileID: 9170966464998626332, guid: 288ec3851fed9a84d8efd76871a9243c, type: 3}
   class_Name: {fileID: 1892909324818947213}
 --- !u!114 &-5231868807660243353
 MonoBehaviour:
@@ -2534,9 +2514,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 009ad0bc699622142a3fe301cb18f0b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
   katana: {fileID: 5304330372371618008}
   hide_katana: {fileID: 6645267893329108332}
 --- !u!195 &2699268414424463414

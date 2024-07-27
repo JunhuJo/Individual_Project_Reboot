@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 2419154072467509143}
   - component: {fileID: 2419154072467509136}
   - component: {fileID: -2770518770554916756}
-  - component: {fileID: -4415847076229734200}
   - component: {fileID: -975696938063734572}
   m_Layer: 0
   m_Name: Shion
@@ -76,28 +75,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6a0d47374050884d8b8b42160907541, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
   characterData: {fileID: 11400000, guid: c59882035ef4fee42b188d320214ca8c, type: 2}
+  Effect_prefab: {fileID: 9170966464998626332, guid: 288ec3851fed9a84d8efd76871a9243c, type: 3}
   class_Name: {fileID: 1230826761580752443}
---- !u!114 &-4415847076229734200
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2419154072467509139}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneId: 0
-  _assetId: 314403469
-  serverOnly: 0
-  visibility: 0
-  hasSpawned: 0
 --- !u!195 &-975696938063734572
 NavMeshAgent:
   m_ObjectHideFlags: 0

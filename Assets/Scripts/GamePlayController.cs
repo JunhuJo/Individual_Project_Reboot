@@ -7,6 +7,6 @@ public class GamePlayController : MonoBehaviour
     public void EndGame()
     {
         // 게임 종료 로직
-        gameManager.OnGetReward();
+        //gameManager.OnGetReward();
     }
 }

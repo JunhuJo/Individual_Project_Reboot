@@ -1,7 +1,3 @@
-using Cinemachine;
-using Mirror;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
@@ -19,11 +15,4 @@ public class CameraController : MonoBehaviour
         }
     }
 
-    public void SetTarget(Transform newTarget)
-    {
-        if (newTarget.GetComponent<NetworkIdentity>().isLocalPlayer)
-        {
-            target = newTarget;
-        }
-    }
 }
