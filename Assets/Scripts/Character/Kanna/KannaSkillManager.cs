@@ -6,10 +6,14 @@ public class KannaSkillManager : MonoBehaviour, ISkill
     [SerializeField] private GameObject katana;  // 발도 카타나
     [SerializeField] private GameObject hide_katana;    // 검집 카타나
     private Animator animator;
+    private PlayerController playerController;
+    private Rigidbody rb;
 
     private void Start()
     {
         animator = GetComponent<Animator>();
+        playerController = GetComponent<PlayerController>();
+        
     }
     public void UseSkill()
     {
@@ -38,6 +42,7 @@ public class KannaSkillManager : MonoBehaviour, ISkill
     private void Kanna_Base_Attack()
     {
         animator.SetTrigger("Attack");
+        
     }
 
     private void Kanna_Skill_A()
@@ -58,6 +63,7 @@ public class KannaSkillManager : MonoBehaviour, ISkill
 
     public void SetAttackKatana()
     {
+        playerController.enabled = false;
         katana.SetActive(true);
         hide_katana.SetActive(false);
     }
@@ -66,5 +72,6 @@ public class KannaSkillManager : MonoBehaviour, ISkill
     {
         hide_katana.SetActive(true);
         katana.SetActive(false);
+        playerController.enabled = true;
     }
 }

@@ -52,7 +52,7 @@ public class PlayerController : MonoBehaviour
     private void Player_Movement()
     {
         //이동
-        if (Input.GetMouseButtonDown(0))// 좌클릭 시
+        if (Input.GetMouseButton(0))// 좌클릭 시
         {
             // 클릭한 위치가 UI 위인지 확인
             if (EventSystem.current.IsPointerOverGameObject())
